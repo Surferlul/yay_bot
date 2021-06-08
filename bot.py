@@ -1,4 +1,4 @@
-#!/bin/python3
+#!/usr/bin/python3
 import praw
 from random import choice
 from datetime import datetime, timedelta
