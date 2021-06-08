@@ -33,7 +33,7 @@ def main():
         if 'yay' == comment.body.lower() and comment.permalink not in replied:
             replied.append(comment.permalink)
             f.write('\n' + comment.permalink)
-            comment.reply(choice(replies))
+            comment.reply(choice(replies) + "\n ^(I am a bot and yes, I do think [this](https://www.reddit.com/r/archlinux/comments/nukzwk/am_i_the_only_one_that_likes_to_post_yay_outputs/) is funny...)")
             print(f'replied to {comment.permalink}')
     f.close()
 
