@@ -1,6 +1,7 @@
 #!/bin/python3
 import praw
 from random import choice
+from datetime import datetime, timedelta
 
 def init_bot(auth_file: str) -> praw.Reddit:
     with open(auth_file, 'r') as f:
@@ -14,10 +15,14 @@ def init_bot(auth_file: str) -> praw.Reddit:
         )
 
 def main():
+    f = open('replies', 'r+')
+    replies = f.read().split('\n')
     reddit = init_bot('../yay_bot_auth')
     subreddit = reddit.subreddit('surferluls_tests')
     for comment in subreddit.stream.comments():
-        if 'yay' == comment.body.lower():
+        if 'yay' == comment.body.lower() and comment.permalink not in replies:
+            replies.append(comment.permalink)
+            f.write('\n' + comment.permalink)
             comment.reply(choice([
                 """there is nothing to do""",
                 """:: Synchronizing package databases...\n
@@ -36,7 +41,7 @@ looking for conflicting packages...\n
 warning: removing 'your-dad' from target list because it conflicts with 'your-mom'\n
 error: failed to prepare transaction (could not satisfy dependencies)\n""",
                 ]))
-        print(comment.__dict__)
+    f.close()
 
 if __name__ == "__main__":
     main()
