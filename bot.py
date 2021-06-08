@@ -2,6 +2,7 @@
 import praw
 from random import choice
 from datetime import datetime, timedelta
+from glob import glob
 
 def init_bot(auth_file: str) -> praw.Reddit:
     with open(auth_file, 'r') as f:
@@ -14,33 +15,26 @@ def init_bot(auth_file: str) -> praw.Reddit:
             password      = auth_info[4],
         )
 
+def get_replies(path: str) -> list:
+    replies = []
+    files = glob(path)
+    for file in files:
+        with open(file, 'r') as f:
+            replies.append(f.read())
+    return replies
+
 def main():
-    f = open('replies', 'r+')
-    replies = f.read().split('\n')
+    f = open('replied', 'r+')
+    replied = f.read().split('\n')
+    replies = get_replies('./replies/*')
     reddit = init_bot('../yay_bot_auth')
     subreddit = reddit.subreddit('surferluls_tests')
     for comment in subreddit.stream.comments():
-        if 'yay' == comment.body.lower() and comment.permalink not in replies:
-            replies.append(comment.permalink)
+        if 'yay' == comment.body.lower() and comment.permalink not in replied:
+            replied.append(comment.permalink)
             f.write('\n' + comment.permalink)
-            comment.reply(choice([
-                """there is nothing to do""",
-                """:: Synchronizing package databases...\n
- core is up to date\n
- extra is up to date\n
- community is up to date\n
- multilib is up to date\n
-:: Starting full system upgrade...\n
-resolving dependencies...\n
-looking for conflicting packages...\n
-\n
-Packages (1) supertuxkart-1.2-1""",
-                """: Starting full system upgrade...\n
-resolving dependencies...\n
-looking for conflicting packages...\n
-warning: removing 'your-dad' from target list because it conflicts with 'your-mom'\n
-error: failed to prepare transaction (could not satisfy dependencies)\n""",
-                ]))
+            comment.reply(choice(replies))
+            print(f'replied to {comment.permalink}')
     f.close()
 
 if __name__ == "__main__":

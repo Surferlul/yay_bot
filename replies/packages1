@@ -1,0 +1,18 @@
+:: Synchronizing package databases...
+
+ core is up to date
+
+ extra is up to date
+
+ community is up to date
+
+ multilib is up to date
+
+:: Starting full system upgrade...
+
+resolving dependencies...
+
+looking for conflicting packages...
+
+Packages (1) supertuxkart-1.2-1
+
