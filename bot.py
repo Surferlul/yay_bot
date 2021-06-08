@@ -20,21 +20,21 @@ def main():
         if 'yay' == comment.body.lower():
             comment.reply(choice([
                 """there is nothing to do""",
-                """:: Synchronizing package databases...
- core is up to date
- extra is up to date
- community is up to date
- multilib is up to date
-:: Starting full system upgrade...
-resolving dependencies...
-looking for conflicting packages...
-
+                """:: Synchronizing package databases...\n
+ core is up to date\n
+ extra is up to date\n
+ community is up to date\n
+ multilib is up to date\n
+:: Starting full system upgrade...\n
+resolving dependencies...\n
+looking for conflicting packages...\n
+\n
 Packages (1) supertuxkart-1.2-1""",
-                """: Starting full system upgrade...
-resolving dependencies...
-looking for conflicting packages...
-warning: removing 'your-dad' from target list because it conflicts with 'your-mom'
-error: failed to prepare transaction (could not satisfy dependencies)""",
+                """: Starting full system upgrade...\n
+resolving dependencies...\n
+looking for conflicting packages...\n
+warning: removing 'your-dad' from target list because it conflicts with 'your-mom'\n
+error: failed to prepare transaction (could not satisfy dependencies)\n""",
                 ]))
         print(comment.__dict__)
 
